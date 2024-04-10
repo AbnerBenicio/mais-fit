@@ -1,0 +1,37 @@
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: #B3F7AB;
+}
+
+.login-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 300px;
+}
+
+.login-container form label {
+    position: relative;
+}
+
+.login-container form label input{
+    border-radius: 25px;
+    height: 40px;
+    width: 300px;
+    font-size: 18px;
+    color: #6d6d6d;
+    padding: 0px 35px;
+    border: 3px solid #dfdfdf;
+    background-color: #ffffff;
+}
+
+.login-container form label span{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-45%);
+    left: 8px;
+}
