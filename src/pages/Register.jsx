@@ -14,6 +14,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [confSenha, setConfSenha] = useState("");
+  const [campoBranco, setCampoBranco] = useState(false);
   const [senhaIncompativel, setSenhaIncompativel] = useState(false);
 
   //Validacao de formulario
@@ -22,28 +23,33 @@ const Register = () => {
     e.preventDefault();
 
     //Verificando compatibilidade de senhas
-    if (senha == confSenha) {
-        //Criando usuário
-      const user = {
-        name: name,
-        email: email,
-        password: senha,
-      };
-      //Limpando estados
-      setName("");
-      setEmail("");
-      setSenha("");
-      setConfSenha("");
-      setSenhaIncompativel(false);
-
-      //Adicionando usuario no sistema
-      // eslint-disable-next-line no-unused-vars
-      const res = await API.post("user", user);
-      //Retornando para a pagina de login
-      navigate("/")
-    } else {
+    if (name !== "" && email !== "" && senha !== "") {
+      //Criando usuário
+      if (senha == confSenha) {
+        const user = {
+          name: name,
+          email: email,
+          password: senha,
+        };
+        //Limpando estados
+        setName("");
+        setEmail("");
+        setSenha("");
+        setConfSenha("");
+        setSenhaIncompativel(false);
+        setCampoBranco(false)
+        //Adicionando usuario no sistema
+        // eslint-disable-next-line no-unused-vars
+        const res = await API.post("user", user);
+        navigate("/");
+      } else {
         //Informando incompatibilidade de senhas
-      setSenhaIncompativel(true);
+        setSenhaIncompativel(true);
+      }
+
+    } else {
+      //Informando incompatibilidade de senhas
+      setCampoBranco(true);
     }
   };
 
@@ -103,6 +109,7 @@ const Register = () => {
             value={confSenha}
           />
         </label>
+        {campoBranco && <span>Há campo(s) em branco!</span>}
         {senhaIncompativel && <span>Senhas incompatíveis</span>}
 
         <button type="submit">Cadastrar</button>

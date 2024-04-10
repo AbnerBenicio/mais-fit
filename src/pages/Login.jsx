@@ -31,6 +31,7 @@ const Login = () => {
                 <span>Não tem conta? <Link to="/register">Cadastre-se</Link> agora</span>
             </form>
         </div>
+        
     )
 }
 
