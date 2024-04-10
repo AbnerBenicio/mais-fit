@@ -1,7 +1,7 @@
 import "./Login.css"
 import Icon1 from "../assets/user.png"
 import Icon2 from "../assets/lock.png"
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const Login = () => {
@@ -28,7 +28,7 @@ const Login = () => {
                 
                 <span>Esqueceu sua senha? Recupere aqui!</span>
                 <button type="submit">ENTRAR</button>
-                <span>Não tem conta? Cadastre-se agora</span>
+                <span>Não tem conta? <Link to="/register">Cadastre-se</Link> agora</span>
             </form>
         </div>
     )

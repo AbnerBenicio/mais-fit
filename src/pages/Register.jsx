@@ -1,0 +1,115 @@
+//Imports
+import Icon1 from "../assets/user.png";
+import Icon2 from "../assets/lock.png";
+import { useNavigate } from "react-router-dom";
+import API from "../api/api";
+import { useState } from "react";
+
+//Pagina "Register"
+const Register = () => {
+  const navigate = useNavigate();
+
+  //Sets de informacoes cadastradas
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [confSenha, setConfSenha] = useState("");
+  const [senhaIncompativel, setSenhaIncompativel] = useState(false);
+
+  //Validacao de formulario
+  const handleSubmit = async (e) => {
+    //Prevenindo atualização após submit
+    e.preventDefault();
+
+    //Verificando compatibilidade de senhas
+    if (senha == confSenha) {
+        //Criando usuário
+      const user = {
+        name: name,
+        email: email,
+        password: senha,
+      };
+      //Limpando estados
+      setName("");
+      setEmail("");
+      setSenha("");
+      setConfSenha("");
+      setSenhaIncompativel(false);
+
+      //Adicionando usuario no sistema
+      // eslint-disable-next-line no-unused-vars
+      const res = await API.post("user", user);
+      //Retornando para a pagina de login
+      navigate("/")
+    } else {
+        //Informando incompatibilidade de senhas
+      setSenhaIncompativel(true);
+    }
+  };
+
+  //Estrutura do pagina
+  return (
+    <div className="login-container">
+      <form onSubmit={handleSubmit}>
+        <label>
+          <span>
+            <img src={Icon1} alt="" />
+          </span>
+          <input
+            type="text"
+            name="Nome"
+            id="Nome"
+            placeholder="Digite seu nome"
+            onChange={(e) => setName(e.target.value)}
+            value={name}
+          />
+        </label>
+        <label>
+          <span>
+            <img src={Icon1} alt="" />
+          </span>
+          <input
+            type="email"
+            name="Rmail"
+            id="Email"
+            placeholder="Email"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+          />
+        </label>
+        <label>
+          <span>
+            <img src={Icon2} alt="" />
+          </span>
+          <input
+            type="password"
+            name="senha"
+            id="senha"
+            placeholder="Senha"
+            onChange={(e) => setSenha(e.target.value)}
+            value={senha}
+          />
+        </label>
+        <label>
+          <span>
+            <img src={Icon2} alt="" />
+          </span>
+          <input
+            type="password"
+            name="senhaConfirm"
+            id="senhaConfirm"
+            placeholder="Confirme sua senha"
+            onChange={(e) => setConfSenha(e.target.value)}
+            value={confSenha}
+          />
+        </label>
+        {senhaIncompativel && <span>Senhas incompatíveis</span>}
+
+        <button type="submit">Cadastrar</button>
+      </form>
+    </div>
+  );
+};
+
+//Exportando pagina
+export default Register;
