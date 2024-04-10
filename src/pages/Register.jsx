@@ -3,13 +3,13 @@ import Icon1 from "../assets/user.png";
 import Icon2 from "../assets/lock.png";
 import { useNavigate } from "react-router-dom";
 import API from "../api/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 //Pagina "Register"
 const Register = () => {
-  const navigate = useNavigate();
-
   //Sets de informacoes cadastradas
+  const [usuarios, setUsuarios] = useState();
+  const [usuarioExiste, setUsuarioExiste] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -17,39 +17,53 @@ const Register = () => {
   const [campoBranco, setCampoBranco] = useState(false);
   const [senhaIncompativel, setSenhaIncompativel] = useState(false);
 
+  useEffect(() => {
+    const fetchApi = async () => {
+      const res = await API.get("user");
+      setUsuarios(res.data);
+    };
+
+    fetchApi();
+  }, []);
+
+  const navigate = useNavigate();
+
   //Validacao de formulario
   const handleSubmit = async (e) => {
     //Prevenindo atualização após submit
     e.preventDefault();
 
-    //Verificando compatibilidade de senhas
-    if (name !== "" && email !== "" && senha !== "") {
-      //Criando usuário
-      if (senha == confSenha) {
-        const user = {
-          name: name,
-          email: email,
-          password: senha,
-        };
-        //Limpando estados
-        setName("");
-        setEmail("");
-        setSenha("");
-        setConfSenha("");
-        setSenhaIncompativel(false);
-        setCampoBranco(false)
-        //Adicionando usuario no sistema
-        // eslint-disable-next-line no-unused-vars
-        const res = await API.post("user", user);
-        navigate("/");
+    const existe = usuarios.some((usuario) => usuario.email === email);
+    setUsuarioExiste(existe);
+
+    if (!existe) {
+      if (name !== "" && email !== "" && senha !== "") {
+        //Criando usuário
+        if (senha == confSenha) {
+          const user = {
+            name: name,
+            email: email,
+            password: senha,
+          };
+          //Limpando estados
+          setName("");
+          setEmail("");
+          setSenha("");
+          setConfSenha("");
+          setSenhaIncompativel(false);
+          setCampoBranco(false);
+          //Adicionando usuario no sistema
+          // eslint-disable-next-line no-unused-vars
+          const res = await API.post("user", user);
+          navigate("/");
+        } else {
+          //Informando incompatibilidade de senhas
+          setSenhaIncompativel(true);
+        }
       } else {
         //Informando incompatibilidade de senhas
-        setSenhaIncompativel(true);
+        setCampoBranco(true);
       }
-
-    } else {
-      //Informando incompatibilidade de senhas
-      setCampoBranco(true);
     }
   };
 
@@ -110,7 +124,10 @@ const Register = () => {
           />
         </label>
         {campoBranco && <span>Há campo(s) em branco!</span>}
-        {senhaIncompativel && <span>Senhas incompatíveis</span>}
+        {senhaIncompativel && <span>Senhas incompatíveis!</span>}
+        {usuarioExiste && (
+          <span>Usuário já existe! Utilize um novo email.</span>
+        )}
 
         <button type="submit">Cadastrar</button>
       </form>
