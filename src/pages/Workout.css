@@ -1,0 +1,35 @@
+.workouts {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    align-items: center;
+    gap: 25px;
+    padding: 25px 0;
+}
+
+.workouts .content {
+    width: 50%;
+}
+
+.workouts .content .card-day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background-color: #5E5E5E;
+    color: #ffffff;
+    font-size: 25px;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+}
+
+.workouts .content .treinos .exercicio{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    border: 2px solid #5E5E5E;
+    font-size: 20px;
+    color: #5E5E5E;
+}

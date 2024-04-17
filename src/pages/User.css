@@ -8,8 +8,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #9ad894;
-    width: 100%;
+    background-color: #5E5E5E;;
+    width: 100vw;
     height: 25vh;
 }
 
@@ -37,12 +37,7 @@
 }
 
 .user-container .main-content{
-    display: flex;
-    align-items: center;
-    justify-content: center;
     height: 75vh;
     width: 100vw;
-    padding: 30px 10px;
-    overflow: auto;
     overflow-x: hidden;
 }
