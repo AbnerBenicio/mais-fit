@@ -24,15 +24,15 @@ const router = createBrowserRouter([
         element:<Register />
       },
       {
-        path:"/user",
+        path:"/:id/user",
         element:<User />,
         children: [
           {
-            path: "/user",
+            path: "/:id/user",
             element: <Home />
           },
           {
-            path: "/user/profile",
+            path: "/:id/user/profile",
             element: <Profile />
           }
         ]

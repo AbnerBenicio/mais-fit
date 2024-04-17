@@ -29,7 +29,7 @@ const Login = () => {
         if(usuario.email == email && usuario.password == senha) {
             setEmail("")
             setSenha("")
-            navigate("/user")
+            navigate(`${usuario.id}/user`)
         }
     })
     setUsuarioExistente(false)

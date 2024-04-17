@@ -1,16 +1,31 @@
-import { Link, Outlet } from "react-router-dom"
+import { Link, Outlet, useParams } from "react-router-dom"
+import { useEffect, useState } from "react";
+import API from "../api/api";
 import "./User.css"
 
 const User = () => {
+
+  const [usuario, setUsuario] = useState()
+  const { id } = useParams()
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      const res = await API.get(`user/${id}`);
+      setUsuario(res.data);
+    };
+
+    fetchApi();
+  }, [id]);
+
   return (
     <div className="user-container">
         <nav>
-            <h1 className="greeting">Olá usuário</h1>
+            <h1 className="greeting">Olá, {usuario ? usuario.name : ''}</h1>
             <div className="selection-buttons">
-                <Link to="/user" >Home</Link>
-                <Link to="/user/profile" >Perfil</Link>
-                <Link to="/user/workouts" >Treinos</Link>
-                <Link to="/user/calcs" >IMC/BASAL</Link>
+                <Link to={`/${id}/user`} >Home</Link>
+                <Link to={`/${id}/user/profile`} >Perfil</Link>
+                <Link to={`/${id}/user/workout`} >Treinos</Link>
+                <Link to={`/${id}/user/calcs`} >IMC/BASAL</Link>
             </div>
         </nav>
         
